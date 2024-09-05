@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_fdf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruiz-al <pruiz-al@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:27:31 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/08/30 20:48:12 by pruiz-al         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:11:52 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_file(char *file)
 	return (i);
 }
 
-void	parse_fdf(int argc, char *argv[], t_fdf *fdf)
+void	parse_fdf(int argc, char *argv[], t_fdf **fdf)
 {
 	int		fd;
 

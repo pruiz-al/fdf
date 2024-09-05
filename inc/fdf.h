@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruiz-al <pruiz-al@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:09:23 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/08/30 21:01:08 by pruiz-al         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:49:19 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 # include <unistd.h>
-# include <fcntl.h>
 # include <stdlib.h>
+# include <limits.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <math.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/libft.h"
@@ -43,7 +44,13 @@ typedef struct s_fdf
 {
 	int			img_height;
 	int			img_width;
+	int			max_x;
+	int			max_y;
+	int			min_x;
+	int			min_y;
+	float		scale;
 	t_map		*map;
+	t_isom		***isom;
 }				t_fdf;
 
 //Libft
@@ -56,13 +63,27 @@ size_t			ft_strlen(const char *s);
 int				ft_atoi(const char *str);
 
 //Parse FdF
-//void			init_fdf(t_fdf ***fdf);
+void			init_fdf(t_fdf **fdf);
 int				check_file(char *file);
-void			parse_fdf(int argc, char *argv[], t_fdf *fdf);
+void			parse_fdf(int argc, char *argv[], t_fdf **fdf);
 
 //Initialize map
-void			get_map(t_map *map, char **points, t_fdf *fdf);
-void			get_width(t_map *map, char **points, t_fdf *fdf);
-int				read_map(int fd, t_fdf *fdf);
+void			create_map(t_map **map, t_fdf **fdf);
+void			get_map(t_map **map, char **points);
+void			get_width(t_map **map, char **points);
+int				read_map(int fd, t_fdf **fdf);
+
+//Isometric
+void			create_isom(t_map **map, t_fdf **fdf);
+void			calculate_maxmin(t_fdf **fdf, int x, int y);
+void			calculate_scale(t_fdf **fdf);
+void			set_points_scale(t_fdf **fdf);
+void			project_isom(t_fdf **fdf);
+
+//Drawing
+void    		draw_line(mlx_image_t *image, t_isom p1, t_isom p2);
+void    		draw_map(t_fdf *fdf, mlx_image_t *image);
+
+void			ft_keyfunc(mlx_key_data_t keydata, void *param);
 
 #endif

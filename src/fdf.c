@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruiz-al <pruiz-al@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:20:24 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/08/30 21:02:41 by pruiz-al         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:58:32 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,37 @@ void	ft_keyfunc(mlx_key_data_t keydata, void *param)
 		mlx_close_window((mlx_t *)param);
 }
 
+void	create_map(t_map **map, t_fdf **fdf)
+{
+/* 	(*fdf)->map = malloc((*map)->height * sizeof(t_map **));
+	if (!(*fdf)->map)
+		exit(1);
+	(*fdf)->map = *map; */
+	int	h;
+	int	w;
+
+	(*fdf)->map = malloc((*map)->height * sizeof(t_map **)); 
+	(*fdf)->map->points = malloc((*map)->height * sizeof(t_map *));
+	if (!(*fdf)->map)
+		exit(1);
+	h = 0;
+	while (h < (*map)->height)
+	{
+		(*fdf)->map->points[h] = malloc((*map)->width * sizeof(t_map));
+		if (!(*fdf)->map->points[h])
+			exit(1);
+		w = 0;
+		while (w < (*map)->width)
+		{
+			(*fdf)->map->points[h][w] = (*map)->points[h][w];
+			w++;
+		}
+		h++;
+	}
+	(*fdf)->map->height = (*map)->height;
+	(*fdf)->map->width = (*map)->width;
+}
+
 int	main(int argc, char *argv[])
 {
 	t_fdf 		*fdf;
@@ -25,8 +56,8 @@ int	main(int argc, char *argv[])
 	mlx_image_t	*image;
 
 	fdf = NULL;
-	//init_fdf(fdf); //tengo que inicializar fdf con valores nulos y ya luego después de inicializar el mapa lo igualo fdf->map
-	parse_fdf(argc, argv, fdf);
+	init_fdf(&fdf); //tengo que inicializar fdf con valores nulos y ya luego después de inicializar el mapa lo igualo fdf->map
+	parse_fdf(argc, argv, &fdf);
 	mlx = mlx_init(1800, 1800, "FdF", 1);
 	if (!mlx)
 		return (perror("Error: mlx initialization.\n"), 1);
@@ -36,11 +67,15 @@ int	main(int argc, char *argv[])
 		mlx_close_window(mlx);
 		return (perror("Error: mlx image initialization.\n"), 1);
 	}
+	project_isom(&fdf);
+	draw_map(fdf, image); //problemas aquí
+	mlx_resize_image(image, mlx->width, mlx->height);
 	mlx_image_to_window(mlx, image, 0, 0);
 	mlx_key_hook(mlx, &ft_keyfunc, mlx);
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, image);
 	mlx_terminate(mlx);
 	printf("Estupendo\n");
+	free(fdf);
 	return (0);
 }
