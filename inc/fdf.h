@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:09:23 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/09/05 22:49:19 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/06 22:46:04 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct s_point {
 }				t_point;
 
 typedef struct s_isom {
-	int			x;
-	int			y;
+	float			x;
+	float			y;
 }				t_isom;
 
 
@@ -81,7 +81,7 @@ void			set_points_scale(t_fdf **fdf);
 void			project_isom(t_fdf **fdf);
 
 //Drawing
-void    		draw_line(mlx_image_t *image, t_isom p1, t_isom p2);
+void    		draw_line(t_fdf *fdf, mlx_image_t *image, t_isom p1, t_isom p2);
 void    		draw_map(t_fdf *fdf, mlx_image_t *image);
 
 void			ft_keyfunc(mlx_key_data_t keydata, void *param);

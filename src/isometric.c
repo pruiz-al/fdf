@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:25:48 by paularuizal       #+#    #+#             */
-/*   Updated: 2024/09/05 22:25:34 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/06 22:27:29 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	calculate_scale(t_fdf **fdf)
 
 	range_x = (*fdf)->max_x - (*fdf)->min_x;
 	range_y = (*fdf)->max_y - (*fdf)->min_y;
-	scale_x = (*fdf)->img_width / range_x;
-	scale_y = (*fdf)->img_height / range_y;
-	if (scale_x < scale_y)
+	scale_x = ((*fdf)->img_width * 0.9) / range_x;
+	scale_y = ((*fdf)->img_height * 0.9) / range_y;
+	if (scale_x < ((*fdf)->img_height - 10) / range_y)
 		(*fdf)->scale = scale_x;
 	else
 		(*fdf)->scale = scale_y;

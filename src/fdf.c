@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:20:24 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/09/05 22:58:32 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/06 22:23:31 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char *argv[])
 	mlx_image_t	*image;
 
 	fdf = NULL;
-	init_fdf(&fdf); //tengo que inicializar fdf con valores nulos y ya luego después de inicializar el mapa lo igualo fdf->map
+	init_fdf(&fdf);
 	parse_fdf(argc, argv, &fdf);
 	mlx = mlx_init(1800, 1800, "FdF", 1);
 	if (!mlx)
@@ -68,7 +68,7 @@ int	main(int argc, char *argv[])
 		return (perror("Error: mlx image initialization.\n"), 1);
 	}
 	project_isom(&fdf);
-	draw_map(fdf, image); //problemas aquí
+	draw_map(fdf, image);
 	mlx_resize_image(image, mlx->width, mlx->height);
 	mlx_image_to_window(mlx, image, 0, 0);
 	mlx_key_hook(mlx, &ft_keyfunc, mlx);
