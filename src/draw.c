@@ -6,11 +6,11 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:27:02 by paularuizal       #+#    #+#             */
-/*   Updated: 2024/09/06 22:45:52 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/18 17:17:25 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fdf.h"
+#include "../inc/fdf.h" //revisar a partir de bresenham de render
 
 //Draw lines using Bresenham's algorithm
 void    draw_line(t_fdf *fdf, mlx_image_t *image, t_isom p1, t_isom p2)
@@ -27,18 +27,20 @@ void    draw_line(t_fdf *fdf, mlx_image_t *image, t_isom p1, t_isom p2)
 	i = 0;
     dx = fabsf(p2.x - p1.x);
     dy = fabsf(p2.y - p1.y);
-    if (dx < dy) //decide according to the slope
+/*     if ((p2.x - p1.x) < (p2.y - p1.y)) //decide according to the slope
         steps = dy;
     else
-        steps = dx;
+        steps = dx; */
+    steps = fmax(dx, dy);
     increment_x = (p2.x - p1.x) / steps; //increments each axis to know which points to draw
     increment_y = (p2.y - p1.y) / steps;
     x = p1.x;
     y = p1.y;
+    if (!fdf)
+        exit (1);
     while (i < steps) //to draw the points between the start (p1) and end (p2) point
     {
-        if (x > 0 && y > 0 && x < (*fdf).map->width && y < (*fdf).map->height)
-    	    mlx_put_pixel(image, x, y, 0xFFFFFFFF);
+    	mlx_put_pixel(image, x, y, 0xFFFFFF);
         x += increment_x;
         y += increment_y;
 		i++;

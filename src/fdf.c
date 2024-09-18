@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:20:24 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/09/06 22:23:31 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/10 22:34:48 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	create_map(t_map **map, t_fdf **fdf)
 	int	w;
 
 	(*fdf)->map = malloc((*map)->height * sizeof(t_map **)); 
-	(*fdf)->map->points = malloc((*map)->height * sizeof(t_map *));
-	if (!(*fdf)->map)
+	(*fdf)->map->points = malloc((*map)->height * sizeof(t_point *));
+	if (!(*fdf)->map || !(*fdf)->map->points) //está mal lo de points
 		exit(1);
 	h = 0;
 	while (h < (*map)->height)

@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:09:23 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/09/06 22:46:04 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/18 17:08:19 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,12 @@ void			calculate_maxmin(t_fdf **fdf, int x, int y);
 void			calculate_scale(t_fdf **fdf);
 void			set_points_scale(t_fdf **fdf);
 void			project_isom(t_fdf **fdf);
+void			center_scale(t_fdf **fdf);
 
 //Drawing
 void    		draw_line(t_fdf *fdf, mlx_image_t *image, t_isom p1, t_isom p2);
 void    		draw_map(t_fdf *fdf, mlx_image_t *image);
-
+float			fmodule(float i);
 void			ft_keyfunc(mlx_key_data_t keydata, void *param);
 
 #endif
