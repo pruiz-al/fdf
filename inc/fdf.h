@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:09:23 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/09/18 17:08:19 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/25 16:42:05 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/libft.h"
 
+# define RATE 1.3913043478
+
 typedef struct s_point {
-	int			x;
-	int			y;
-	int			z;
+	float		x;
+	float		y;
+	float		z;
 	int			color;
 }				t_point;
 
@@ -44,10 +46,10 @@ typedef struct s_fdf
 {
 	int			img_height;
 	int			img_width;
-	int			max_x;
-	int			max_y;
-	int			min_x;
-	int			min_y;
+	float		max_x;
+	float		max_y;
+	float		min_x;
+	float		min_y;
 	float		scale;
 	t_map		*map;
 	t_isom		***isom;

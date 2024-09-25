@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:20:24 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/09/10 22:34:48 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/25 15:19:25 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ int	main(int argc, char *argv[])
 	fdf = NULL;
 	init_fdf(&fdf);
 	parse_fdf(argc, argv, &fdf);
-	mlx = mlx_init(1800, 1800, "FdF", 1);
+	mlx = mlx_init(1280, 920, "FdF", 1);
 	if (!mlx)
 		return (perror("Error: mlx initialization.\n"), 1);
-	image = mlx_new_image(mlx, 100, 100);
+	image = mlx_new_image(mlx, 1280, 920);
 	if (!image)
 	{
 		mlx_close_window(mlx);

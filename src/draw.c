@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:27:02 by paularuizal       #+#    #+#             */
-/*   Updated: 2024/09/18 17:17:25 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/25 16:00:52 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void    draw_line(t_fdf *fdf, mlx_image_t *image, t_isom p1, t_isom p2)
     else
         steps = dx; */
     steps = fmax(dx, dy);
-    increment_x = (p2.x - p1.x) / steps; //increments each axis to know which points to draw
-    increment_y = (p2.y - p1.y) / steps;
+    increment_x = dx / steps; //increments each axis to know which points to draw
+    increment_y = dy / steps;
     x = p1.x;
     y = p1.y;
     if (!fdf)
@@ -41,8 +41,16 @@ void    draw_line(t_fdf *fdf, mlx_image_t *image, t_isom p1, t_isom p2)
     while (i < steps) //to draw the points between the start (p1) and end (p2) point
     {
     	mlx_put_pixel(image, x, y, 0xFFFFFF);
-        x += increment_x;
-        y += increment_y;
+        if (p2.x < p1.x)
+			x -= increment_x;
+		else
+			x += increment_x;
+		if (p2.y < p1.y)
+			y -= increment_y;
+		else
+			y += increment_y;
+/*         x += increment_x;
+        y += increment_y; */
 		i++;
     }
 }

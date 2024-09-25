@@ -6,7 +6,7 @@
 /*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 20:15:34 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/09/18 17:17:32 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/09/25 16:42:55 by paularuizal      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	init_fdf(t_fdf **fdf)
 	*fdf = ft_calloc(sizeof(t_fdf), 1);
 	if (!(*fdf))
 		exit(1);
-	(*fdf)->img_height = 1080;
-	(*fdf)->img_width = 1080;
+	(*fdf)->img_height = 1280;
+	(*fdf)->img_width = 920;
 	(*fdf)->max_x = INT_MIN;
 	(*fdf)->max_y = INT_MIN;
 	(*fdf)->min_x = INT_MAX;
