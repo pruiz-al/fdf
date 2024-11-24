@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   isometric.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paularuizalcarazgmail.com <paularuizalc    +#+  +:+       +#+        */
+/*   By: pruiz-al <pruiz-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:25:48 by paularuizal       #+#    #+#             */
-/*   Updated: 2024/09/25 16:45:10 by paularuizal      ###   ########.fr       */
+/*   Updated: 2024/11/23 21:48:06 by pruiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../inc/fdf.h"
 
-void	create_isom(t_map **map, t_fdf **fdf)
+/* void	create_isom(t_map **map, t_fdf **fdf)
 {
 	int	h;
 	int	w;
@@ -21,19 +20,66 @@ void	create_isom(t_map **map, t_fdf **fdf)
 	create_map(map, fdf);
 	(*fdf)->isom = malloc((*map)->height * sizeof(t_isom *));
 	if (!(*fdf)->isom)
+	{
+		free_isom(*fdf, *map);
 		exit(1);
+	}
 	h = 0;
 	while (h < (*map)->height)
 	{
 		(*fdf)->isom[h] = malloc((*map)->width * sizeof(t_isom));
 		if (!(*fdf)->isom[h])
+		{
+			free_isom(*fdf, *map);
 			exit(1);
+		}
 		w = 0;
 		while (w < (*map)->width)
 		{
 			(*fdf)->isom[h][w] = malloc(sizeof(t_isom));
 			if (!(*fdf)->isom[h][w])
+			{
+				free((*fdf)->isom[h][w]);
+				free((*fdf)->isom[h]);
+				free_isom(*fdf, *map);
 				exit(1);
+			}
+			w++;
+		}
+		h++;
+	}
+} */
+
+void	create_isom(t_map **map, t_fdf **fdf)
+{
+	int	h;
+	int	w;
+
+	create_map(map, fdf);
+	(*fdf)->isom = malloc((*map)->height * sizeof(t_isom **));
+	if (!(*fdf)->isom)
+	{
+		free_isom(*fdf, *map);
+		exit(1);
+	}
+	h = 0;
+	while (h < (*map)->height)
+	{
+		(*fdf)->isom[h] = malloc((*map)->width * sizeof(t_isom *));
+		if (!(*fdf)->isom[h])
+		{
+			free_isom(*fdf, *map);
+			exit(1);
+		}
+		w = 0;
+		while (w < (*map)->width)
+		{
+			(*fdf)->isom[h][w] = malloc(sizeof(t_isom));
+			if (!(*fdf)->isom[h][w])
+			{
+				free_isom(*fdf, *map);
+				exit(1);
+			}
 			w++;
 		}
 		h++;
@@ -54,25 +100,21 @@ void	calculate_maxmin(t_fdf **fdf, int x, int y)
 
 void	calculate_scale(t_fdf **fdf)
 {
-	float	range_x;
+	//float	range_x;
 	float	range_y;
 //	int	scale_x;
 //	int	scale_y;
 
-	range_x = (*fdf)->max_x + fabs((*fdf)->min_x);
+	//range_x = (*fdf)->max_x + fabs((*fdf)->min_x);
 	range_y = (*fdf)->max_y + fabs((*fdf)->min_y);
-	
+
 /*  	scale_x = ((*fdf)->img_width * 0.9) / range_x;
 	scale_y = ((*fdf)->img_height * 0.9) / range_y;
 	if (scale_x < ((*fdf)->img_height - 10.0) / range_y)
 		(*fdf)->scale = scale_x;
 	else
 		(*fdf)->scale = scale_y; */
-	
-	if (RATE <= 1)
-		(*fdf)->scale = range_x;
-	else
-		(*fdf)->scale = range_y * 1.75;
+	(*fdf)->scale = range_y * 1.75;
 }
 
 //Center the points in the window using the scale
@@ -87,8 +129,8 @@ void	set_points_scale(t_fdf **fdf)
 	{
 		while (w < (*fdf)->map->width)
 		{
-			(*fdf)->isom[h][w]->x = ((*fdf)->isom[h][w]->x + fabs((*fdf)->min_x)) * ((*fdf)->img_width / (*fdf)->scale);
-			(*fdf)->isom[h][w]->y = (((*fdf)->isom[h][w]->y + fabs((*fdf)->min_y)) * ((*fdf)->img_height / (*fdf)->scale)) * RATE + 50;
+			(*fdf)->isom[h][w]->x = ((*fdf)->isom[h][w]->x + fabs((*fdf)->min_x)) * ((*fdf)->img_width / (*fdf)->scale) + 50;
+			(*fdf)->isom[h][w]->y = (((*fdf)->isom[h][w]->y + fabs((*fdf)->min_y)) * ((*fdf)->img_height / (*fdf)->scale)) + 50;
 			//printf("Punto x: %f, Punto y: %f\n", (*fdf)->isom[h][w]->x, (*fdf)->isom[h][w]->y);
 			w++;
 		}
@@ -143,6 +185,7 @@ void	project_isom(t_fdf **fdf)
 			p = (*fdf)->map->points[h][w];
 			(*fdf)->isom[h][w]->x = (p.x - p.y) * 0.87; //0.87 es coseno de 30
 			(*fdf)->isom[h][w]->y = - p.z + (p.x + p.y) * 0.53; //0.5 es seno de 30
+			(*fdf)->isom[h][w]->color = p.color;
 			calculate_maxmin(fdf, (*fdf)->isom[h][w]->x, (*fdf)->isom[h][w]->y);
 			w++;
 		}
