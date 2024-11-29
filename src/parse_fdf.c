@@ -6,7 +6,7 @@
 /*   By: pruiz-al <pruiz-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:27:31 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/11/23 21:43:13 by pruiz-al         ###   ########.fr       */
+/*   Updated: 2024/08/30 20:48:12 by pruiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 int	check_file(char *file)
 {
-	int		i;
+	int	i;
 	char	**s;
 
 	s = ft_split(file, '.');
-	if (!s[0] || !s[1] || !ft_strnstr(s[1], ".fdf\0", ft_strlen(s[1]) + 1))
+	if (!s[0]|| !s[1] || !ft_strnstr(s[1], ".fdf\0", ft_strlen(s[1]) + 1))
 		i = 0;
 	freearray(s, count(file, '.'));
 	i = 1;
 	return (i);
 }
 
-void	parse_fdf(int argc, char *argv[], t_fdf **fdf)
+void	parse_fdf(int argc, char *argv[], t_fdf *fdf)
 {
 	int		fd;
 
-	if (argc != 2 || !check_file(argv[1]))
+	if(argc != 2 || !check_file(argv[1]))
 	{
 		perror("Error: wrong input.\n");
 		exit (EXIT_FAILURE);
@@ -40,9 +40,9 @@ void	parse_fdf(int argc, char *argv[], t_fdf **fdf)
 		perror("Error: couldn't open the file.\n");
 		exit (EXIT_FAILURE);
 	}
-	if (read_map(fd, fdf) == -1)
+	if (!read_map(fd, fdf))
 	{
 		perror("Error: couldn't read the map.\n");
-		exit (EXIT_FAILURE);
+		exit (1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pruiz-al <pruiz-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 17:20:24 by pruiz-al          #+#    #+#             */
-/*   Updated: 2024/11/23 21:47:47 by pruiz-al         ###   ########.fr       */
+/*   Updated: 2024/08/31 14:23:30 by pruiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,68 +18,29 @@ void	ft_keyfunc(mlx_key_data_t keydata, void *param)
 		mlx_close_window((mlx_t *)param);
 }
 
-void	free_fdf(t_fdf *fdf)
-{
-	if (fdf->isom)
-		free_isom(fdf, fdf->map);
-	if (fdf->map)
-		free_map(fdf);
-	free(fdf);
-}
-
-void	create_map(t_map **map, t_fdf **fdf)
-{
-	int	h;
-	int	w;
-
-	(*fdf)->map = malloc((*map)->height * sizeof(t_map **));
-	(*fdf)->map->points = malloc((*map)->height * sizeof(t_point *));
-	if (!(*fdf)->map || !(*fdf)->map->points)
-		exit(1);
-	h = 0;
-	while (h < (*map)->height)
-	{
-		(*fdf)->map->points[h] = malloc((*map)->width * sizeof(t_map));
-		if (!(*fdf)->map->points[h])
-			exit(1);
-		w = 0;
-		while (w < (*map)->width)
-		{
-			(*fdf)->map->points[h][w] = (*map)->points[h][w];
-			w++;
-		}
-		h++;
-	}
-	(*fdf)->map->height = (*map)->height;
-	(*fdf)->map->width = (*map)->width;
-}
-
 int	main(int argc, char *argv[])
 {
-	t_fdf		*fdf;
+	t_fdf 		*fdf;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 
 	fdf = NULL;
-	init_fdf(&fdf);
-	parse_fdf(argc, argv, &fdf);
-	mlx = mlx_init(1500, 1150, "FdF", 1);
+	//init_fdf(fdf); //tengo que inicializar fdf con valores nulos y ya luego después de inicializar el mapa lo convierto a isometrico y lo igualo fdf->map
+	parse_fdf(argc, argv, fdf);
+	mlx = mlx_init(1800, 1800, "FdF", 1);
 	if (!mlx)
-		return (perror("Error: mlx initialization.\n"), free_fdf(fdf), 1);
-	image = mlx_new_image(mlx, 1500, 1150);
+		return (perror("Error: mlx initialization.\n"), 1);
+	image = mlx_new_image(mlx, 100, 100);
 	if (!image)
 	{
 		mlx_close_window(mlx);
-		return (perror("Error: mlx image initialization.\n"), free_fdf(fdf), 1);
+		return (perror("Error: mlx image initialization.\n"), 1);
 	}
-	project_isom(&fdf);
-	draw_map(fdf, image);
-	mlx_resize_image(image, mlx->width, mlx->height);
 	mlx_image_to_window(mlx, image, 0, 0);
 	mlx_key_hook(mlx, &ft_keyfunc, mlx);
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, image);
 	mlx_terminate(mlx);
-	free_fdf(fdf);
+	printf("Estupendo\n");
 	return (0);
 }
