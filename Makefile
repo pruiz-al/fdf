@@ -2,7 +2,7 @@ NAME = fdf
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
-MLX42FLAGS = -ldl -lglfw -lm -pthread
+MLX42FLAGS = -Iinclude -ldl -lglfw -pthread -lm
 REMOVE = rm -rf
 
 LIBFT_PATH = ./libft/
@@ -13,7 +13,8 @@ MLX42_BIN = $(MLX42_PATH)libmlx42.a
 
 HEADERS	= -I$(LIBFT_PATH) -I./get_next_line -I./inc
 
-SRC = src/fdf.c src/initialization.c src/parse_fdf.c\
+SRC = src/draw.c src/fdf.c src/initialization.c\
+		src/isometric.c src/parse_fdf.c src/color.c src/free.c\
 
 OBJ = $(SRC:src/%.c=obj/%.o)
 

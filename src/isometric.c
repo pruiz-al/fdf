@@ -6,49 +6,11 @@
 /*   By: pruiz-al <pruiz-al@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:25:48 by paularuizal       #+#    #+#             */
-/*   Updated: 2024/11/23 21:48:06 by pruiz-al         ###   ########.fr       */
+/*   Updated: 2024/11/30 14:11:38 by pruiz-al         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
-
-/* void	create_isom(t_map **map, t_fdf **fdf)
-{
-	int	h;
-	int	w;
-
-	create_map(map, fdf);
-	(*fdf)->isom = malloc((*map)->height * sizeof(t_isom *));
-	if (!(*fdf)->isom)
-	{
-		free_isom(*fdf, *map);
-		exit(1);
-	}
-	h = 0;
-	while (h < (*map)->height)
-	{
-		(*fdf)->isom[h] = malloc((*map)->width * sizeof(t_isom));
-		if (!(*fdf)->isom[h])
-		{
-			free_isom(*fdf, *map);
-			exit(1);
-		}
-		w = 0;
-		while (w < (*map)->width)
-		{
-			(*fdf)->isom[h][w] = malloc(sizeof(t_isom));
-			if (!(*fdf)->isom[h][w])
-			{
-				free((*fdf)->isom[h][w]);
-				free((*fdf)->isom[h]);
-				free_isom(*fdf, *map);
-				exit(1);
-			}
-			w++;
-		}
-		h++;
-	}
-} */
 
 void	create_isom(t_map **map, t_fdf **fdf)
 {
@@ -129,8 +91,8 @@ void	set_points_scale(t_fdf **fdf)
 	{
 		while (w < (*fdf)->map->width)
 		{
-			(*fdf)->isom[h][w]->x = ((*fdf)->isom[h][w]->x + fabs((*fdf)->min_x)) * ((*fdf)->img_width / (*fdf)->scale) + 50;
-			(*fdf)->isom[h][w]->y = (((*fdf)->isom[h][w]->y + fabs((*fdf)->min_y)) * ((*fdf)->img_height / (*fdf)->scale)) + 50;
+			(*fdf)->isom[h][w]->x = ((*fdf)->isom[h][w]->x + fabs((*fdf)->min_x)) * ((*fdf)->img_width / (*fdf)->scale) + 200;
+			(*fdf)->isom[h][w]->y = (((*fdf)->isom[h][w]->y + fabs((*fdf)->min_y)) * ((*fdf)->img_height / (*fdf)->scale)) + 200;
 			//printf("Punto x: %f, Punto y: %f\n", (*fdf)->isom[h][w]->x, (*fdf)->isom[h][w]->y);
 			w++;
 		}
@@ -139,7 +101,7 @@ void	set_points_scale(t_fdf **fdf)
 	}
 }
 
-void	center_scale(t_fdf **fdf)
+/* void	center_scale(t_fdf **fdf)
 {
 	int	x_offset;
 	int	y_offset;
@@ -159,6 +121,40 @@ void	center_scale(t_fdf **fdf)
 			//(*fdf)->isom[h][w]->x *= 2;
 			//(*fdf)->isom[h][w]->y *= 2;
 			printf("Punto: x = %f, y = %f\n", (*fdf)->isom[h][w]->x, (*fdf)->isom[h][w]->y); //hay un punto raro en la y
+			w++;
+		}
+		h++;
+	}
+} */
+
+void	center_scale(t_fdf **fdf)
+{
+	int	x_offset;
+	int	y_offset;
+	int	h;
+	int	w;
+
+	printf("img y:%d, max y:%f ", (*fdf)->img_height, (*fdf)->max_y);
+	//x_offset = ((*fdf)->img_width - ((*fdf)->max_x - (*fdf)->min_x)) / 2 - (((*fdf)->max_x - (*fdf)->min_x)) * 2;
+	//y_offset = ((*fdf)->img_height - ((*fdf)->max_y - (*fdf)->min_y)) / 2 - (*fdf)->min_y;
+	//x_offset =  ((*fdf)->img_width -( *fdf)->max_x) / 2 ;
+	//y_offset = ((*fdf)->img_height - ((*fdf)->max_y - (*fdf)->min_y)) / 2 - (((*fdf)->max_y - (*fdf)->min_y)) * 2;
+	//y_offset = (*fdf)->img_height / 10;
+	//x_offset = (*fdf)->img_width / 2 - (*fdf)->max_x ;
+	x_offset = (((*fdf)->img_width) - ((*fdf)->max_x - (*fdf)->min_x) / 2) / 2 + 50;
+	y_offset = (((*fdf)->img_height) - (*fdf)->max_y) / 2  - 50;
+	
+	h = 0;
+	while (h < (*fdf)->map->height)
+	{
+		w = 0;
+		while (w < (*fdf)->map->width)
+		{
+			(*fdf)->isom[h][w]->x += x_offset;
+			(*fdf)->isom[h][w]->y += y_offset;
+			//(*fdf)->isom[h][w]->x *= 2;
+			//(*fdf)->isom[h][w]->y *= 2;
+			//printf("Punto: x = %f, y = %f\n", (*fdf)->isom[h][w]->x, (*fdf)->isom[h][w]->y); //hay un punto raro en la y
 			w++;
 		}
 		h++;
